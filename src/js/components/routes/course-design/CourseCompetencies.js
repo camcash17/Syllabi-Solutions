@@ -9,7 +9,7 @@ class CourseCompentencies extends Component {
   render() { 
     return (
       <div id="message">
-        <h2>Course Compentencies</h2>
+        <h2 style={{margin: '10px'}}>Course Compentencies</h2>
       </div>
     );
   }

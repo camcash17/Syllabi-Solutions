@@ -30,7 +30,9 @@ class DesignNav extends Component {
                         </Nav>
                         <Nav pullRight>
                             <LinkContainer to="/UserProfile">
-                                <NavItem eventKey={1}>My Profile</NavItem>
+                            {(this.props.DisplayName) ?
+                                <NavItem eventKey={1}>{this.props.DisplayName}</NavItem> :
+                                <NavItem eventKey={1}>My Profile</NavItem>}
                             </LinkContainer>
                             <NavItem eventKey={2} href="#">
                                 Help

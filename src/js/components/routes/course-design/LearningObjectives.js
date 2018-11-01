@@ -9,7 +9,7 @@ class LearningObjectives extends Component {
   render() { 
     return (
       <div id="message">
-        <h2>Learning Objective</h2>
+        <h2 style={{margin: '10px'}}>Learning Objective</h2>
       </div>
     );
   }

@@ -8,7 +8,7 @@ class DLPrintCenter extends Component {
   render() { 
     return (
       <div id="message">
-        <h2>Download & Print Center</h2>
+        <h2 style={{margin: '10px'}}>Download & Print Center</h2>
       </div>
     );
   }

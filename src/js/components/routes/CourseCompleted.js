@@ -9,7 +9,7 @@ class CourseCompleted extends Component {
   render() { 
     return (
       <div id="message">
-        <h2>Courses Completed</h2>
+        <h2 style={{margin: '10px'}}>Courses Completed</h2>
       </div>
     );
   }

@@ -9,7 +9,7 @@ class ModuleDesign extends Component {
   render() { 
     return (
       <div id="message">
-        <h2>Module Design</h2>
+        <h2 style={{margin: '10px'}}>Module Design</h2>
       </div>
     );
   }

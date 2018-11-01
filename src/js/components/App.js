@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import {Route, Switch, Redirect} from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+import axios from 'axios';
 import "./App.css";
 import Home from './routes/Home';
 import UserProfile from './routes/UserProfile';
@@ -18,10 +19,35 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
+            user: '',
             Nav: 'instructor',
+            DisplayName: '',
         };
-        this.displayNav = this.displayNav.bind(this)
+        this._isMounted = false;
+        this.displayNav = this.displayNav.bind(this);
     };
+
+    componentDidMount(){
+        this._isMounted = true;
+        axios({
+          method: 'GET',
+          url: '/users'
+        })
+        .then( res => {
+          const user = res.data.data
+          this._isMounted ?
+          this.setState({
+            user: user,
+            DisplayName: res.data.data[0].firstname
+          }) : ''
+        })
+        .catch( err => {
+          console.log(err)
+        })
+    }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
 
     displayNav(nav){
         if(nav === 'design') {
@@ -35,14 +61,14 @@ class App extends Component {
         };
     };
 
-    render() { 
+    render() {
         return (
             <div id="background" className="App">
-                {this.state.Nav === 'instructor' ? <InstructorNav /> : <DesignNav/>}
+                {this.state.Nav === 'instructor' ? <InstructorNav DisplayName={this.state.DisplayName} /> : <DesignNav DisplayName={this.state.DisplayName} />}
                 <div className="App-intro">
                     <Switch>
                         <Route exact path="/Home" render={(props) => <Home {...props} Nav={this.state.Nav} displayNav={this.displayNav}/>}/>
-                        <Route path="/UserProfile" render={(props) => <UserProfile {...props} Nav={this.state.Nav} displayNav={this.displayNav}/>}/>
+                        <Route path="/UserProfile" render={(props) => <UserProfile {...props} user={this.state.user} Nav={this.state.Nav} displayNav={this.displayNav} />}/>
                         <Route path="/CourseDetails" render={(props) => <CourseDetails {...props} Nav={this.state.Nav} displayNav={this.displayNav}/>}/>
                         <Route path="/CoursePending" component={CoursePending} />
                         <Route path="/CourseCompleted" component={CourseCompleted} />

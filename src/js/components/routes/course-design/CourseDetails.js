@@ -15,7 +15,7 @@ class CourseDetails extends Component {
   render() {
     return (
       <div id="message">
-        <h2>Course Details</h2>
+        <h2 style={{margin: '10px'}}>Course Details</h2>
       </div>
     );
   }
