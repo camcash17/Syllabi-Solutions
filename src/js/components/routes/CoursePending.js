@@ -10,6 +10,7 @@ class CoursePending extends Component {
     return (
       <div id="message">
         <h2>Courses Pending</h2>
+        <h1>This is where you see your pending courses</h1>
       </div>
     );
   }
