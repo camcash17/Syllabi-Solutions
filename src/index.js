@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
-import App from "./js/components/App";
+import { Provider } from 'react-redux';
 
+import './index.css';
 
-ReactDOM.render((
-    <BrowserRouter>
+import store from './store';
+import App from './components/App';
+import Firebase, { FirebaseContext } from './components/Firebase';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <FirebaseContext.Provider value={new Firebase()}>
       <App />
-    </BrowserRouter>
-  ), document.getElementById('root'));
+    </FirebaseContext.Provider>
+  </Provider>,
+  document.getElementById('root'),
+);
