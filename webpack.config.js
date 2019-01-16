@@ -1,6 +1,8 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -38,6 +40,7 @@ module.exports = {
       template: "./index.html",
       filename: "./index.html"
     }),
-    new ExtractTextWebpackPlugin('style.css')
+    new ExtractTextWebpackPlugin('style.css'),
+    new Dotenv()
   ]
 };
