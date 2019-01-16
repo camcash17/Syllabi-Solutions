@@ -3,12 +3,12 @@ import 'firebase/auth';
 import 'firebase/database';
 
 const config = {
-    apiKey: "AIzaSyA-seX7BqdlYQAW5PERhzg3dv0op9WsRmw",
-    authDomain: "syllabi-solutions.firebaseapp.com",
-    databaseURL: "https://syllabi-solutions.firebaseio.com",
-    projectId: "syllabi-solutions",
-    storageBucket: "syllabi-solutions.appspot.com",
-    messagingSenderId: "559139117884"
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    PROJECT_ID: process.env.API_KEY,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID
 };
 
 class Firebase {

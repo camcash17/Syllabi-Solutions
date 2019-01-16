@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
 import "../../index.css";
+
 import Home from '../Home';
 import UserProfile from '../Application/app/UserProfile';
 import CourseDetails from '../Application/app/course-design/CourseDetails';
@@ -25,7 +26,6 @@ import AdminPage from '../Admin';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
-
 
 class App extends Component {
     constructor(props) {
