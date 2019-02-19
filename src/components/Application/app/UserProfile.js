@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import '../../../index.css'
 import { Button } from 'react-bootstrap';
+import { withFirebase } from '../../Firebase';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 class UserProfile extends Component {
@@ -8,14 +10,18 @@ class UserProfile extends Component {
       super(props);
       this.state = {
         edit: false,
-        firstName: this.props.user[0].firstname,
-        lastName: this.props.user[0].lastname,
-        middle: this.props.user[0].middle,
-        suffix: this.props.user[0].suffix,
-        degree: this.props.user[0].degree,
-        university: this.props.user[0].university,
-        college: this.props.user[0].college,
-        department: this.props.user[0].department,
+        user: {
+          name: this.props.authUser.username,
+          // lastName: this.props.user[0].lastname,
+          // middle: this.props.user[0].middle,
+          suffix: this.props.authUser.suffix ? this.props.authUser.suffix : '',
+          degree: this.props.authUser.degree ? this.props.authUser.degree : '',
+          university: this.props.authUser.university ? this.props.authUser.university : '',
+          college: this.props.authUser.college ? this.props.authUser.college : '',
+          department: this.props.authUser.department ? this.props.authUser.department : '',
+          email: this.props.authUser.email,
+          roles: this.props.authUser.roles[0]
+        }
       };
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -25,33 +31,17 @@ class UserProfile extends Component {
   componentDidMount(){
     const nav = 'instructor';
     this.props.displayNav(nav);
-    // axios({
-    //   method: 'GET',
-    //   url: `/users/${this.props.user[0].id}`
-    // })
-    // .then( res => {
-    //   this.setState({
-    //     firstName: res.data.data.firstname,
-    //     lastName: res.data.data.lastname,
-    //     middle: res.data.data.middle,
-    //     suffix: res.data.data.suffix,
-    //     degree: res.data.data.degree,
-    //     university: res.data.data.university,
-    //     college: res.data.data.college,
-    //     department: res.data.data.department
-    //   })
-    // })
-    // .catch( err => {
-    //   console.log(err)
-    // })
   }
 
   handleChange(e) {
     let name = e.target.name;
     let value = e.target.value;
-    this.setState({
-      [name]: value
-    })
+    this.setState(prevState => ({
+      user: {
+          ...prevState.user,
+          [name]: value
+      }
+    }))
   };
 
   handleSubmit(e) {
@@ -59,26 +49,11 @@ class UserProfile extends Component {
     this.setState({
       edit: false
     })
-    axios({
-      method: 'PUT',
-      url: `/users/${this.props.user[0].id}`,
-      data: {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        middle: this.state.middle,
-        suffix: this.state.suffix,
-        degree: this.state.degree,
-        university: this.state.university,
-        college: this.state.college,
-        department: this.state.department
-      }
-    })
-    .then( user => {
-      this.props.logUser(this.state.firstName);
-    })
-    .catch( err => {
-      console.log(err)
-    })
+    try {
+      this.props.firebase.doUpdateUserInfo(this.props.authUser.uid, this.state.user);
+    } catch(error) {
+      console.log('Error Updating User Info ', error)
+    }
   };
 
   handleClick(){
@@ -87,16 +62,16 @@ class UserProfile extends Component {
     })
   }
 
-  render() { 
+  render() {
     return (
       this.state.edit ?
       <div id="forms">
         <div id="form" className='form'>
           <form id="forms" onSubmit={this.handleSubmit}>
-            <input type='text' onChange={this.handleChange} value={this.state.firstName} name='firstName' placeholder='First Name' />
-            <input type='text' onChange={this.handleChange} value={this.state.lastName} name='lastName' placeholder='Last Name' />
-            <input type='text' onChange={this.handleChange} value={this.state.middle} name='middle' placeholder='Middle Initial' />
-            <select name="suffix" value={this.state.suffix} onChange={this.handleChange}>
+            <input type='text' onChange={this.handleChange} value={this.state.user.name} name='name' placeholder='Name' />
+            {/* <input type='text' onChange={this.handleChange} value={this.state.lastName} name='lastName' placeholder='Last Name' />
+            <input type='text' onChange={this.handleChange} value={this.state.middle} name='middle' placeholder='Middle Initial' /> */}
+            <select name="suffix" value={this.state.user.suffix} onChange={this.handleChange}>
               <option value="">Suffix</option>
               <option value="Jr.">Jr.</option>
               <option value="Sr.">Sr.</option>
@@ -106,31 +81,35 @@ class UserProfile extends Component {
               <option value="Esq.">Esq.</option>
               <option value="Dr.">Dr.</option>
             </select>
-            <select name="degree" value ={this.state.degree} onChange={this.handleChange}>
+            <select name="degree" value ={this.state.user.degree} onChange={this.handleChange}>
               <option value="">Degree</option>
               <option value="B.A.">B.A.</option>
               <option value="B.S.">B.S.</option>
             </select>
-            <input type='text' onChange={this.handleChange} value={this.state.university} name='university' placeholder='University' />
-            <input type='text' onChange={this.handleChange} value={this.state.college} name='college' placeholder='College' />
-            <input type='text' onChange={this.handleChange} value={this.state.department} name='department' placeholder='Department' />
+            <input type='text' onChange={this.handleChange} value={this.state.user.university} name='university' placeholder='University' />
+            <input type='text' onChange={this.handleChange} value={this.state.user.college} name='college' placeholder='College' />
+            <input type='text' onChange={this.handleChange} value={this.state.user.department} name='department' placeholder='Department' />
             <input type='submit' value='Submit' />
           </form>
         </div>
       </div> :
       <div style={{top: '50%', textAlign: 'center'}} id="message">
-        <h3>First Name: {this.state.firstName}</h3>
-        <h3>Last Name: {this.state.lastName}</h3>
-        <h3>Middle Initial: {this.state.middle}</h3>
-        <h3>Suffix: {this.state.suffix}</h3>
-        <h3>Degree: {this.state.degree}</h3>
-        <h3>University: {this.state.university}</h3>
-        <h3>College: {this.state.college}</h3>
-        <h3>Department: {this.state.department}</h3>
+        <h3>Name: {this.state.user.name}</h3>
+        {/* <h3>Last Name: {this.state.lastName}</h3>
+        <h3>Middle Initial: {this.state.middle}</h3> */}
+        <h3>Suffix: {this.state.user.suffix}</h3>
+        <h3>Degree: {this.state.user.degree}</h3>
+        <h3>University: {this.state.user.university}</h3>
+        <h3>College: {this.state.user.college}</h3>
+        <h3>Department: {this.state.user.department}</h3>
         <Button bsStyle="danger" onClick={this.handleClick}>Edit</Button>
       </div> 
     );
   }
 }
 
-export default UserProfile;
+const mapStateToProps = state => ({
+  authUser: state.sessionState.authUser,
+});
+
+export default withFirebase(connect(mapStateToProps)(UserProfile));

@@ -5,9 +5,11 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
+
 const SignUpPage = () => (
-  <div>
-    <h1>SignUp</h1>
+  <div id="message">
+  {/* <h1>Sign Up</h1> */}
     <SignUpForm />
   </div>
 );
@@ -37,6 +39,12 @@ class SignUpFormBase extends Component {
 
     this.state = { ...INITIAL_STATE };
   }
+
+  // onClick = (nr) => () => {
+  //   this.setState({
+  //     radio: nr
+  //   });
+  // }
 
   onSubmit = event => {
     const { username, email, passwordOne, isAdmin } = this.state;
@@ -99,50 +107,131 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <label>
-          Admin:
-          <input
-            name="isAdmin"
-            type="checkbox"
-            checked={isAdmin}
-            onChange={this.onChangeCheckbox}
-          />
-        </label>
-        <button disabled={isInvalid} type="submit">
-          Sign Up
-        </button>
+      <MDBContainer>
+      <MDBRow>
+        <MDBCol md="6">
+        <form onSubmit={this.onSubmit}>
+            <p className="h2 text-center mb-4">Sign up</p>
+            <div className="grey-text">
+              <MDBInput
+              name="username"
+              value={username}
+              onChange={this.onChange}
+              type="text"
+                label="Full Name"
+                group
+                validate
+                error="wrong"
+                success="right"
+              />
+              <MDBInput
+              name="email"
+              value={email}
+              onChange={this.onChange}
+              type="text"
+                label="Email Address"
+                group
+                validate
+                error="wrong"
+                success="right"
+              />
+              <MDBInput
+              name="passwordOne"
+              value={passwordOne}
+              onChange={this.onChange}
+              type="password"
+                label="Password"
+                group
+                validate
+                containerClass="mb-0"
+              />
+              <MDBInput
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={this.onChange}
+              type="password"
+                label="Confirm Password"
+                group
+                validate
+                error="wrong"
+                success="right"
+              />
+              <label>
+                Admin:
+                <input
+                  name="isAdmin"
+                  type="checkbox"
+                  checked={isAdmin}
+                  onChange={this.onChangeCheckbox}
+                />
+              </label>
+              {/* <MDBContainer className="mt-5">
+                <MDBInput gap onClick={this.onClick(1)} checked={this.state.radio===1 ? isAdmin : false} label="Admin" type="radio"
+                  id="radio1" />
+              </MDBContainer> */}
+              </div>
+              <div className="text-center mb-3">
+                <MDBBtn
+                  // type="button"
+                  gradient="blue"
+                  rounded
+                  className="btn-block z-depth-1a"
+                  // className="button" 
+                  disabled={isInvalid} 
+                  type="submit"
+                >
+                  Sign up
+                </MDBBtn>
+                {error && <p>{error.message}</p>}
+              </div>
+            </form>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+      // <form onSubmit={this.onSubmit}>
+      //   <input
+      //     name="username"
+      //     value={username}
+      //     onChange={this.onChange}
+      //     type="text"
+      //     placeholder="Full Name"
+      //   />
+      //   <input
+      //     name="email"
+      //     value={email}
+      //     onChange={this.onChange}
+      //     type="text"
+      //     placeholder="Email Address"
+      //   />
+      //   <input
+      //     name="passwordOne"
+      //     value={passwordOne}
+      //     onChange={this.onChange}
+      //     type="password"
+      //     placeholder="Password"
+      //   />
+      //   <input
+      //     name="passwordTwo"
+      //     value={passwordTwo}
+      //     onChange={this.onChange}
+      //     type="password"
+      //     placeholder="Confirm Password"
+      //   />
+      //   <label>
+      //     Admin:
+      //     <input
+      //       name="isAdmin"
+      //       type="checkbox"
+      //       checked={isAdmin}
+      //       onChange={this.onChangeCheckbox}
+      //     />
+      //   </label>
+      //   <button className="button" disabled={isInvalid} type="submit">
+      //     Sign Up
+      //   </button>}
 
-        {error && <p>{error.message}</p>}
-      </form>
+      //   {error && <p>{error.message}</p>}
+      // </form>
     );
   }
 }

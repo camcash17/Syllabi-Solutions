@@ -6,17 +6,22 @@ import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
 
 const SignInPage = () => (
-  <div>
-    <h1>SignIn</h1>
-    <SignInForm />
-    <SignInGoogle />
-    <SignInFacebook />
-    <SignInTwitter />
-    <PasswordForgetLink />
-    <SignUpLink />
+  // <div>
+    <div id="message">
+      {/* <h1>SignIn</h1> */}
+      <SignInForm />
+      {/* <SignInGoogle />
+      <SignInFacebook />
+      <SignInTwitter />
+      <PasswordForgetLink />
+      <SignUpLink /> */}
+    {/* </div> */}
+    {/* <FormPage /> */}
   </div>
+
 );
 
 const INITIAL_STATE = {
@@ -68,27 +73,121 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+      <MDBContainer>
+      <MDBRow>
+        <MDBCol md="6">
+        <form onSubmit={this.onSubmit}>
+            <p className="h2 text-center mb-4">Sign in</p>
+            <div className="grey-text">
+              <MDBInput
+                label="Email Address"
+                group
+                validate
+                error="wrong"
+                success="right"
+                name="email"
+                value={email}
+                onChange={this.onChange}
+                type="text"
+              />
+              <MDBInput
+                label="Password"
+                group
+                type="password"
+                validate
+                containerClass="mb-0"
+                name="password"
+                value={password}
+                onChange={this.onChange}
+              />
+              </div>
+              {/* <p className="font-small blue-text d-flex justify-content-end pb-3"> */}
+                {/* Forgot
+                <a href="#!" className="blue-text ml-1">
 
-        {error && <p>{error.message}</p>}
-      </form>
+                  Password?
+                </a> */}
+                <PasswordForgetLink />
+              {/* </p> */}
+              <div className="text-center mb-3">
+                <MDBBtn
+                  // type="button"
+                  gradient="blue"
+                  rounded
+                  className="btn-block z-depth-1a"
+                  // className="button" 
+                  disabled={isInvalid} 
+                  type="submit"
+                >
+                  Sign in
+                </MDBBtn>
+                {error && <p>{error.message}</p>}
+              </div>
+              {/* <p className="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
+
+                or Sign in with:
+              </p>
+              <div className="row my-3 d-flex justify-content-center">
+                <MDBBtn
+                  type="button"
+                  color="white"
+                  rounded
+                  className="mr-md-3 z-depth-1a"
+                >
+                  <MDBIcon fab icon="facebook-f" className="blue-text text-center" />
+                </MDBBtn>
+                <MDBBtn
+                  type="button"
+                  color="white"
+                  rounded
+                  className="mr-md-3 z-depth-1a"
+                >
+                  <MDBIcon fab icon="twitter" className="blue-text" />
+                </MDBBtn>
+                <MDBBtn
+                  type="button"
+                  color="white"
+                  rounded
+                  className="z-depth-1a"
+                >
+                  <MDBIcon fab icon="google-plus-g" className="blue-text" />
+                </MDBBtn>
+              </div> */}
+            </form>
+            {/* <MDBModalFooter className="mx-5 pt-3 mb-1"> */}
+              {/* <p className="font-small grey-text d-flex justify-content-end"> */}
+                {/* Not a member?
+                <a href="#!" className="blue-text ml-1">
+
+                  Sign Up
+                </a> */}
+                <SignUpLink />
+              {/* </p> */}
+            {/* </MDBModalFooter> */}
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+      // <form onSubmit={this.onSubmit}>
+      //   <input
+      //     name="email"
+      //     value={email}
+      //     onChange={this.onChange}
+      //     type="text"
+      //     placeholder="Email Address"
+      //   />
+      //   <input
+      //     name="password"
+      //     value={password}
+      //     onChange={this.onChange}
+      //     type="password"
+      //     placeholder="Password"
+      //   />
+      //   <button className="button" disabled={isInvalid} type="submit">
+      //     Sign In
+      //   </button>
+
+      //   {error && <p>{error.message}</p>}
+      // </form>
     );
   }
 }
@@ -131,7 +230,7 @@ class SignInGoogleBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Google</button>
+        <button className="button" type="submit">Sign In with Google</button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -177,7 +276,7 @@ class SignInFacebookBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Facebook</button>
+        <button className="button" type="submit">Sign In with Facebook</button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -223,7 +322,7 @@ class SignInTwitterBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Twitter</button>
+        <button className="button" type="submit">Sign In with Twitter</button>
 
         {error && <p>{error.message}</p>}
       </form>

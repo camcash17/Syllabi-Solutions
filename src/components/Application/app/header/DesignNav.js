@@ -1,21 +1,32 @@
 import React, { Component } from "react";
 import logo from "../../../../assets/img/logo.png";
 import { Link } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer, IndexLinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import * as ROUTES from '../../../../constants/routes';
+import { withFirebase } from '../../../Firebase';
 
 class DesignNav extends Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            update: ''
+        };
+        this.update = this.update.bind(this);
     }
+
+    update() {
+        this.setState({
+            update: true
+        })
+    }
+
     render() { 
         return (
             <div className="design-nav">
                 <Navbar style={{marginBottom: "0px", borderRadius: "0px"}} inverse collapseOnSelect>
                     <Navbar.Header>
-                        <LinkContainer to={ROUTES.HOME}>
+                        <LinkContainer exact to={ROUTES.HOME} onClick={this.update}>
                             <Navbar.Brand>
                                 <img src={logo} style={{width:100, height:50, margin: 0, padding: 0}}/>
                             </Navbar.Brand>
@@ -24,49 +35,51 @@ class DesignNav extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav style={{fontSize: "20px", marginLeft: "34%"}}>
-                            <LinkContainer to={ROUTES.COURSE_DETAILS}>
+                            <LinkContainer exact to={ROUTES.COURSE_DETAILS} onClick={this.update}>
                                 <NavItem style={{float: "right"}} eventKey={1}>Design a Course</NavItem>
                             </LinkContainer>
                         </Nav>
                         <Nav pullRight>
-                            <LinkContainer to={ROUTES.USER_PROFILE}>
-                            {(this.props.DisplayName) ?
-                                <NavItem eventKey={1}>{this.props.DisplayName}</NavItem> :
-                                <NavItem eventKey={1}>My Profile</NavItem>}
+                            <LinkContainer exact to={ROUTES.USER_PROFILE} onClick={this.update}>
+                            {(this.props.authUser) ?
+                                <NavItem>{this.props.authUser.username}</NavItem> :
+                                <NavItem>My Profile</NavItem>}
                             </LinkContainer>
-                            <NavItem eventKey={2} href="#">
+                            <NavItem>
                                 Help
                             </NavItem>
-                            <NavItem eventKey={3} href="#">
-                                Sign Out
-                            </NavItem>
+                            <LinkContainer exact to={ROUTES.LANDING} onClick={this.update}>
+                                <NavItem onClick={this.props.firebase.doSignOut}>
+                                    Sign Out
+                                </NavItem>
+                            </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <Navbar style={{borderRadius: "0px"}} inverse collapseOnSelect>
+                <Navbar style={{marginBottom: "0px", borderRadius: "0px"}} inverse collapseOnSelect>
                     <Navbar.Toggle />
                     <Navbar.Collapse>
                         <Nav style={{marginLeft: "5%"}}>
-                            <LinkContainer to={ROUTES.HOME}>
-                                <NavItem eventKey={1}>Home</NavItem>
+                            <IndexLinkContainer exact to={ROUTES.HOME} onClick={this.update}>
+                                <NavItem>Home</NavItem>
+                            </IndexLinkContainer>
+                            <LinkContainer exact to={ROUTES.COURSE_DETAILS} onClick={this.update}>
+                                <NavItem>Course Details</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.COURSE_DETAILS}>
-                                <NavItem eventKey={2}>Course Details</NavItem>
+                            <LinkContainer exact to={ROUTES.COURSE_COMPETENCIES} onClick={this.update}>
+                                <NavItem>Course Compentencies</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.COURSE_COMPETENCIES}>
-                                <NavItem eventKey={3}>Course Compentencies</NavItem>
+                            <LinkContainer exact to={ROUTES.COURSE_OUTCOMES} onClick={this.update}>
+                                <NavItem>Course Outcomes</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.COURSE_OUTCOMES}>
-                                <NavItem eventKey={4}>Course Outcomes</NavItem>
+                            <LinkContainer exact to={ROUTES.LEARNING_OBJECTIVES} onClick={this.update}>
+                                <NavItem>Learning Objectives</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.LEARNING_OBJECTIVES}>
-                                <NavItem eventKey={5}>Learning Objectives</NavItem>
+                            <LinkContainer exact to={ROUTES.MODULE_DESIGN} onClick={this.update}>
+                                <NavItem>Module Design</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.MODULE_DESIGN}>
-                                <NavItem eventKey={6}>Module Design</NavItem>
-                            </LinkContainer>
-                            <LinkContainer to={ROUTES.DL_PRINT_CENTER}>
-                                <NavItem eventKey={7}>Download & Print Center</NavItem>
+                            <LinkContainer exact to={ROUTES.DL_PRINT_CENTER} onClick={this.update}>
+                                <NavItem>Download & Print Center</NavItem>
                             </LinkContainer>
                             {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                                 <MenuItem eventKey={3.1}>Action</MenuItem>
@@ -83,4 +96,4 @@ class DesignNav extends Component {
     }
 }
  
-export default DesignNav;
+export default withFirebase(DesignNav);
