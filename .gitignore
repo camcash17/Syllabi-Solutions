@@ -1,3 +1,4 @@
 .env
+servicekey.json
 /node_modules
 /build
