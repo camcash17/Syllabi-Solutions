@@ -27,7 +27,7 @@ const SIGN_IN_METHODS = [
 ];
 
 const AccountPage = ({ authUser }) => (
-  <div>
+  <div id="message">
     <h1>Account: {authUser.email}</h1>
     <PasswordForgetForm />
     <PasswordChangeForm />
@@ -135,6 +135,7 @@ const SocialLoginToggle = ({
 }) =>
   isEnabled ? (
     <button
+      className="button" 
       type="button"
       onClick={() => onUnlink(signInMethod.id)}
       disabled={onlyOneLeft}
@@ -144,6 +145,7 @@ const SocialLoginToggle = ({
   ) : (
     <button
       type="button"
+      className="button" 
       onClick={() => onLink(signInMethod.provider)}
     >
       Link {signInMethod.id}
@@ -183,6 +185,7 @@ class DefaultLoginToggle extends Component {
 
     return isEnabled ? (
       <button
+        className="button" 
         type="button"
         onClick={() => onUnlink(signInMethod.id)}
         disabled={onlyOneLeft}
@@ -206,7 +209,7 @@ class DefaultLoginToggle extends Component {
           placeholder="Confirm New Password"
         />
 
-        <button disabled={isInvalid} type="submit">
+        <button className="button" disabled={isInvalid} type="submit">
           Link {signInMethod.id}
         </button>
       </form>

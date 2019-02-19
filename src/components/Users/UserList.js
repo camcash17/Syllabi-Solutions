@@ -5,6 +5,7 @@ import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import { CreateNewUserForm } from '../CreateNewUser';
 
 class UserList extends Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class UserList extends Component {
 
     this.state = {
       loading: false,
+      newUser: false
     };
+    this.newUser = this.newUser.bind(this);
   }
 
   componentDidMount() {
@@ -23,12 +26,21 @@ class UserList extends Component {
     this.props.firebase.users().on('value', snapshot => {
       this.props.onSetUsers(snapshot.val());
 
-      this.setState({ loading: false });
+      this.setState({
+         loading: false,
+         newUser: false
+        });
     });
   }
 
   componentWillUnmount() {
     this.props.firebase.users().off();
+  }
+
+  newUser() {
+    this.setState({
+      newUser: !this.state.newUser
+    })
   }
 
   render() {
@@ -37,6 +49,16 @@ class UserList extends Component {
 
     return (
       <div>
+          {!this.state.newUser ?
+          <Link to='#'>
+            <p onClick={this.newUser}>Create a User</p>
+          </Link> :
+          <span>
+            <Link to='#'>
+              <p onClick={this.newUser}>Back</p> 
+            </Link>
+            <CreateNewUserForm />
+          </span>}
         <h2>Users</h2>
         {loading && <div>Loading ...</div>}
         <ul>
@@ -45,12 +67,15 @@ class UserList extends Component {
               <span>
                 <strong>ID:</strong> {user.uid}
               </span>
+              <br />
               <span>
                 <strong>E-Mail:</strong> {user.email}
               </span>
+              <br />
               <span>
                 <strong>Username:</strong> {user.username}
               </span>
+              <br />
               <span>
                 <Link to={`${ROUTES.ADMIN}/${user.uid}`}>
                   Details

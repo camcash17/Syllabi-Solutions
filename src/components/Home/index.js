@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Navigation from '../Navigation';
 import '../../index.css'
 
 class Home extends Component {
@@ -16,6 +17,7 @@ class Home extends Component {
     return (
       <div id="message">
         <h2 style={{margin: '10px'}}>Home</h2>
+        <Navigation />
       </div>
     );
   }

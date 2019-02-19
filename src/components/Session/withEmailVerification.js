@@ -27,7 +27,7 @@ const withEmailVerification = Component => {
 
     render() {
       return needsEmailVerification(this.props.authUser) ? (
-        <div>
+        <div id="message">
           {this.state.isSent ? (
             <p>
               E-Mail confirmation sent: Check you E-Mails (Spam folder
@@ -43,6 +43,7 @@ const withEmailVerification = Component => {
           )}
 
           <button
+            className="button" 
             type="button"
             onClick={this.onSendEmailVerification}
             disabled={this.state.isSent}

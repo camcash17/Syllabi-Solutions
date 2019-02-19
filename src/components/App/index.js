@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
 import "../../index.css";
@@ -16,7 +17,7 @@ import DLPrintCenter from '../Application/app/course-design/DLPrintCenter';
 import DesignNav from "../Application/app/header/DesignNav";
 import InstructorNav from "../Application/app/header/InstructorNav";
 
-import Navigation from '../Navigation';
+import Nav from "../Application/app/header/Nav";
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
@@ -39,27 +40,42 @@ class App extends Component {
         this.displayNav = this.displayNav.bind(this);
     };
 
-    componentDidMount(){
-        this._isMounted = true;
-        axios({
-          method: 'GET',
-          url: '/users'
-        })
-        .then( res => {
-          const user = res.data.data
-          this._isMounted ?
-          this.setState({
-            user: user,
-            DisplayName: res.data.data[0].firstname
-          }) : ''
-        })
-        .catch( err => {
-          console.log(err)
-        })
-    }
-    componentWillUnmount(){
-        this._isMounted = false;
-    }
+    // componentDidMount(){
+    //     let user;
+    //     this._isMounted = true;
+    //     this.props.firebase
+    //     .doGetUserInfo(userUid)
+    //     .then(userInfo => {
+    //         user = userInfo;
+    //         console.log('user', user);
+    //         this._isMounted ?
+    //         this.setState({
+    //             user: user,
+    //         }) : ''
+    //     })
+    //     .catch( err => {
+    //         console.log(err)
+    //     })
+
+    //     axios({
+    //       method: 'GET',
+    //       url: '/users'
+    //     })
+    //     .then( res => {
+    //       user = res.data.data
+    //       this._isMounted ?
+    //       this.setState({
+    //         user: user,
+    //         DisplayName: res.data.data[0].firstname
+    //       }) : ''
+    //     })
+    //     .catch( err => {
+    //       console.log(err)
+    //     })
+    // }
+    // componentWillUnmount(){
+    //     this._isMounted = false;
+    // }
 
     displayNav(nav){
         if(nav === 'design') {
@@ -77,12 +93,11 @@ class App extends Component {
         return (
             <Router>
                 <div id="background" className="App">
-                    {this.state.Nav === 'instructor' ? <InstructorNav DisplayName={this.state.DisplayName} /> : <DesignNav DisplayName={this.state.DisplayName} />}
-                    <div className="App-intro">
-                        <Navigation />
+                    <div id="navigation">
+                        <Nav currentNav={this.state.Nav} DisplayName={this.state.DisplayName}/>
+                    </div>
+                    <div id="content" className="App-intro">
                         <Switch>
-                            
-                            <Route exact path={ROUTES.LANDING} render={(props) => <LandingPage {...props} Nav={this.state.Nav} displayNav={this.displayNav} />} />
                             <Route path={ROUTES.HOME} render={(props) => <Home {...props} Nav={this.state.Nav} displayNav={this.displayNav} />}/>
                             <Route path={ROUTES.USER_PROFILE} render={(props) => <UserProfile {...props} user={this.state.user} Nav={this.state.Nav} displayNav={this.displayNav} />}/>
                             <Route path={ROUTES.COURSE_DETAILS} render={(props) => <CourseDetails {...props} Nav={this.state.Nav} displayNav={this.displayNav} />} />
@@ -94,14 +109,14 @@ class App extends Component {
                             <Route path={ROUTES.MODULE_DESIGN} component={ModuleDesign} />
                             <Route path={ROUTES.DL_PRINT_CENTER} component={DLPrintCenter} />
 
-                            
                             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
                             <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                             <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
                             <Route path={ROUTES.ACCOUNT} component={AccountPage} />
                             <Route path={ROUTES.ADMIN} component={AdminPage} />
-                            <Route path = "*" render={(props) => <LandingPage {...props} Nav={this.state.Nav} displayNav={this.displayNav}/>}/>
-                            <Redirect to="/" />
+                            <Route exact path={ROUTES.LANDING} render={(props) => <LandingPage {...props} Nav={this.state.Nav} displayNav={this.displayNav} />} />
+                            {/* <Route path = "*" render={(props) => <Home {...props} Nav={this.state.Nav} displayNav={this.displayNav}/>}/>
+                            <Redirect to="/" /> */}
                         </Switch>
                     </div>
                 </div>

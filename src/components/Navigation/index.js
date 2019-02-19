@@ -10,17 +10,17 @@ const Navigation = ({ authUser }) =>
   authUser ? (
     <NavigationAuth authUser={authUser} />
   ) : (
-    <NavigationNonAuth />
+    ''
   );
 
 const NavigationAuth = ({ authUser }) => (
   <ul>
-    <li>
+    {/* <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
+    </li> */}
+    {/* <li>
       <Link to={ROUTES.HOME}>Home</Link>
-    </li>
+    </li> */}
     <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
@@ -29,22 +29,22 @@ const NavigationAuth = ({ authUser }) => (
         <Link to={ROUTES.ADMIN}>Admin</Link>
       </li>
     )}
-    <li>
+    {/* <li>
       <SignOutButton />
-    </li>
+    </li> */}
   </ul>
 );
 
-const NavigationNonAuth = () => (
-  <ul>
-    <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-    </li>
-  </ul>
-);
+// const NavigationNonAuth = () => (
+//   <ul>
+//     {/* <li>
+//       <Link to={ROUTES.LANDING}>Landing</Link>
+//     </li> */}
+//     <li>
+//       <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+//     </li>
+//   </ul>
+// );
 
 const mapStateToProps = state => ({
   authUser: state.sessionState.authUser,

@@ -4,18 +4,29 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import * as ROUTES from '../../../../constants/routes';
+import { withFirebase } from '../../../Firebase';
 
 class InstructorNav extends Component {
-    constructor() {
-        super();
-        this.state = {};
+    constructor(props) {
+        super(props);
+        this.state = {
+            update: ''
+        };
+        this.update = this.update.bind(this);
     }
-    render() { 
+
+    update() {
+        this.setState({
+            update: true
+        })
+    }
+
+    render() {
         return (
             <div className="instructor-nav">
-                <Navbar style={{marginBottom: "0px", borderRadius: "0px"}} inverse collapseOnSelect>
+                <Navbar fixed="top" style={{marginBottom: "0px", borderRadius: "0px"}} inverse collapseOnSelect>
                     <Navbar.Header>
-                        <LinkContainer to={ROUTES.HOME}>
+                        <LinkContainer exact to={ROUTES.HOME} onClick={this.update}>
                             <Navbar.Brand>
                                 <img src={logo} style={{width:100, height:50, margin: 0, padding: 0}}/>
                             </Navbar.Brand>
@@ -23,44 +34,53 @@ class InstructorNav extends Component {
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
-                        <Nav style={{fontSize: "20px", marginLeft: "34%"}}>
-                            <LinkContainer to={ROUTES.HOME}>
-                                <NavItem eventKey={1}>Instructor Portal</NavItem>
+                        <Nav style={{fontSize: "20px", marginLeft: "34%"}} onClick={this.update}>
+                            <LinkContainer exact to={ROUTES.HOME}>
+                                <NavItem>Instructor Portal</NavItem>
                             </LinkContainer>
                         </Nav>
                         <Nav pullRight>
-                            <LinkContainer to={ROUTES.USER_PROFILE}>
-                            {(this.props.DisplayName) ?
-                                <NavItem eventKey={1}>{this.props.DisplayName}</NavItem> :
-                                <NavItem eventKey={1}>My Profile</NavItem>}
-                            </LinkContainer>
-                            <NavItem eventKey={2} href="#">
+                            {(this.props.authUser.emailVerified) ?
+                            <LinkContainer exact to={ROUTES.USER_PROFILE} onClick={this.update}>
+                            {(this.props.authUser) ?
+                                <NavItem>{this.props.authUser.username}</NavItem> :
+                                <NavItem>My Profile</NavItem>}
+                            </LinkContainer> :
+                            <LinkContainer exact to={ROUTES.ACCOUNT}>
+                            {(this.props.authUser) ?
+                                <NavItem>{this.props.authUser.username}</NavItem> :
+                                <NavItem>My Profile</NavItem>}
+                            </LinkContainer> }
+                            <NavItem>
                                 Help
                             </NavItem>
-                            <NavItem eventKey={3} href="#">
-                                Sign Out
-                            </NavItem>
+                            <LinkContainer exact to={ROUTES.LANDING} onClick={this.update}>
+                                <NavItem onClick={this.props.firebase.doSignOut}>
+                                    Sign Out
+                                </NavItem>
+                            </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <Navbar style={{borderRadius: "0px"}} inverse collapseOnSelect>
+                {(this.props.authUser.emailVerified) ?
+                <Navbar fixed="top" style={{marginBottom: "0px", borderRadius: "0px"}} inverse collapseOnSelect>
                     <Navbar.Toggle />
                     <Navbar.Collapse>
                         <Nav style={{marginLeft: "25%"}}>
-                            <LinkContainer to={ROUTES.HOME}>
-                                <NavItem eventKey={1}>Home</NavItem>
+                            <LinkContainer exact to={ROUTES.HOME} onClick={this.update}>
+                                <NavItem>Home</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.USER_PROFILE}>
-                                <NavItem eventKey={2}>My Profile</NavItem>
+                            <LinkContainer exact to={ROUTES.USER_PROFILE} onClick={this.update}>
+                                <NavItem>My Profile</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.COURSE_DETAILS}>
-                                <NavItem eventKey={3}>Design A Course</NavItem>
+                            <LinkContainer exact to={ROUTES.COURSE_DETAILS} onClick={this.update}>
+                                <NavItem>Design A Course</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.COURSE_PENDING}>
-                                <NavItem eventKey={4}>Courses Pending</NavItem>
+                            <LinkContainer exact to={ROUTES.COURSE_PENDING} onClick={this.update}>
+                                <NavItem>Courses Pending</NavItem>
                             </LinkContainer>
-                            <LinkContainer to={ROUTES.COURSE_COMPLETED}>
-                                <NavItem eventKey={5}>Courses Completed</NavItem>
+                            <LinkContainer exact to={ROUTES.COURSE_COMPLETED} onClick={this.update}>
+                                <NavItem>Courses Completed</NavItem>
                             </LinkContainer>
                             {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                                 <MenuItem eventKey={3.1}>Action</MenuItem>
@@ -71,10 +91,10 @@ class InstructorNav extends Component {
                             </NavDropdown> */}
                         </Nav>
                     </Navbar.Collapse>
-                </Navbar>
+                </Navbar> : '' }
             </div>
          );
     }
 }
  
-export default InstructorNav;
+export default withFirebase(InstructorNav);
