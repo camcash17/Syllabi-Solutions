@@ -5,6 +5,7 @@ import { LinkContainer, IndexLinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import * as ROUTES from '../../../../constants/routes';
 import { withFirebase } from '../../../Firebase';
+import { connect } from 'react-redux';
 
 class DesignNav extends Component {
     constructor() {
@@ -13,6 +14,21 @@ class DesignNav extends Component {
             update: ''
         };
         this.update = this.update.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.firebase
+        .user(this.props.authUser.uid)
+        .on('value', snapshot => {
+          this.props.onSetUser(
+            snapshot.val(),
+            this.props.authUser.uid,
+          );
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.firebase.user(this.props.authUser.uid).off();
     }
 
     update() {
@@ -40,11 +56,17 @@ class DesignNav extends Component {
                             </LinkContainer>
                         </Nav>
                         <Nav pullRight>
+                            {(this.props.authUser.emailVerified) ?
                             <LinkContainer exact to={ROUTES.USER_PROFILE} onClick={this.update}>
-                            {(this.props.authUser) ?
-                                <NavItem>{this.props.authUser.username}</NavItem> :
+                            {(this.props.users.length) ?
+                                <NavItem>{this.props.users[0].username}</NavItem> :
                                 <NavItem>My Profile</NavItem>}
-                            </LinkContainer>
+                            </LinkContainer> :
+                            <LinkContainer exact to={ROUTES.ACCOUNT}>
+                            {(this.props.users.length) ?
+                                <NavItem>{this.props.users[0].username}</NavItem> :
+                                <NavItem>My Profile</NavItem>}
+                            </LinkContainer> }
                             <NavItem>
                                 Help
                             </NavItem>
@@ -95,5 +117,17 @@ class DesignNav extends Component {
          );
     }
 }
+
+const mapStateToProps = state => ({
+    authUser: state.sessionState.authUser,
+    users: Object.keys(state.userState.users || {}).map(key => ({
+        ...state.userState.users[key],
+        uid: key,
+      })),
+  });
+
+const mapDispatchToProps = dispatch => ({
+    onSetUser: (user, uid) => dispatch({ type: 'USER_SET', user, uid }),
+});
  
-export default withFirebase(DesignNav);
+export default connect(mapStateToProps, mapDispatchToProps)(withFirebase(DesignNav));

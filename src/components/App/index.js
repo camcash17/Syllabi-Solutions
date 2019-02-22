@@ -32,50 +32,20 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: '',
             Nav: 'instructor',
-            DisplayName: '',
         };
         this._isMounted = false;
         this.displayNav = this.displayNav.bind(this);
+        this.updateUser = this.updateUser.bind(this);
     };
 
-    // componentDidMount(){
-    //     let user;
-    //     this._isMounted = true;
-    //     this.props.firebase
-    //     .doGetUserInfo(userUid)
-    //     .then(userInfo => {
-    //         user = userInfo;
-    //         console.log('user', user);
-    //         this._isMounted ?
-    //         this.setState({
-    //             user: user,
-    //         }) : ''
-    //     })
-    //     .catch( err => {
-    //         console.log(err)
-    //     })
+    componentDidMount(){
+        this._isMounted = true;
+    }
 
-    //     axios({
-    //       method: 'GET',
-    //       url: '/users'
-    //     })
-    //     .then( res => {
-    //       user = res.data.data
-    //       this._isMounted ?
-    //       this.setState({
-    //         user: user,
-    //         DisplayName: res.data.data[0].firstname
-    //       }) : ''
-    //     })
-    //     .catch( err => {
-    //       console.log(err)
-    //     })
-    // }
-    // componentWillUnmount(){
-    //     this._isMounted = false;
-    // }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
 
     displayNav(nav){
         if(nav === 'design') {
@@ -89,6 +59,12 @@ class App extends Component {
         };
     };
 
+    updateUser(){
+        this.setState({
+            updateUser: !this.state.updateUser
+        });
+    }
+
     render() {
         return (
             <Router>
@@ -99,7 +75,7 @@ class App extends Component {
                     <div id="content" className="App-intro">
                         <Switch>
                             <Route path={ROUTES.HOME} render={(props) => <Home {...props} Nav={this.state.Nav} displayNav={this.displayNav} />}/>
-                            <Route path={ROUTES.USER_PROFILE} render={(props) => <UserProfile {...props} user={this.state.user} Nav={this.state.Nav} displayNav={this.displayNav} />}/>
+                            <Route path={ROUTES.USER_PROFILE} render={(props) => <UserProfile {...props} Nav={this.state.Nav} displayNav={this.displayNav} />}/>
                             <Route path={ROUTES.COURSE_DETAILS} render={(props) => <CourseDetails {...props} Nav={this.state.Nav} displayNav={this.displayNav} />} />
                             <Route path={ROUTES.COURSE_PENDING} component={CoursePending} />
                             <Route path={ROUTES.COURSE_COMPLETED} component={CourseCompleted} />
