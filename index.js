@@ -22,9 +22,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'))
 });
 
-const userRoutes = require('./routes/user-routes');
-app.use('/users', userRoutes);
-
 const fbRoutes = require('./routes/fb-routes');
 app.use('/fb', fbRoutes)
 

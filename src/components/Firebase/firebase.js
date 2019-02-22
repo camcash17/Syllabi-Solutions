@@ -14,15 +14,6 @@ const config = {
 class Firebase {
     constructor() {
       app.initializeApp(config);
-
-      // admin.initializeApp({
-      //   credential: admin.credential.cert({
-      //     projectId: process.env.PROJECT_ID,
-      //     clientEmail: 'foo@'+process.env.PROJECT_ID+'.iam.gserviceaccount.com',
-      //     privateKey: '-----BEGIN PRIVATE KEY-----\n'+process.env.API_KEY+'\n-----END PRIVATE KEY-----\n'
-      //   }),
-      //   databaseURL: process.env.DATABASE_URL
-      // });
   
       /* Helper */
   
@@ -43,79 +34,6 @@ class Firebase {
 
     // *** Admin API ***
 
-    // doRetrieveUserData = (uid) => {
-    //   admin.auth().getUser(uid)
-    //     .then(function(userRecord) {
-    //       // See the UserRecord reference doc for the contents of userRecord.
-    //       console.log("Successfully fetched user data:", userRecord.toJSON());
-    //     })
-    //     .catch(function(error) {
-    //       console.log("Error fetching user data:", error);
-    //     });
-    // }
-
-    // doRetrieveUserDataByEmail = (email) => {
-    //   admin.auth().getUserByEmail(email)
-    //     .then(function(userRecord) {
-    //       // See the UserRecord reference doc for the contents of userRecord.
-    //       console.log("Successfully fetched user data:", userRecord.toJSON());
-    //     })
-    //     .catch(function(error) {
-    //       console.log("Error fetching user data:", error);
-    //     });
-    // }
-  
-    // doCreateUser = (userInfo) => {
-    //   // admin.auth().createUser(userInfo)
-    //   admin.auth().createUser({
-    //     email: "user@example.com",
-    //     emailVerified: false,
-    //     phoneNumber: "+11234567890",
-    //     password: "secretPassword",
-    //     displayName: "John Doe",
-    //     photoURL: "http://www.example.com/12345678/photo.png",
-    //     disabled: false
-    //   })
-    //     .then(function(userRecord) {
-    //       // See the UserRecord reference doc for the contents of userRecord.
-    //       console.log("Successfully created new user:", userRecord.uid);
-    //     })
-    //     .catch(function(error) {
-    //       console.log("Error creating new user:", error);
-    //     });
-    // }
-
-    // doUpdateUser = (uid, userInfo) => {
-    //   admin.auth().updateUser(uid,
-    //     // userInfo
-    //     {
-    //     email: "modifiedUser@example.com",
-    //     phoneNumber: "+11234567890",
-    //     emailVerified: true,
-    //     password: "newPassword",
-    //     displayName: "Jane Doe",
-    //     photoURL: "http://www.example.com/12345678/photo.png",
-    //     disabled: true
-    //   }
-    //   )
-    //     .then(function(userRecord) {
-    //       // See the UserRecord reference doc for the contents of userRecord.
-    //       console.log("Successfully updated user", userRecord.toJSON());
-    //     })
-    //     .catch(function(error) {
-    //       console.log("Error updating user:", error);
-    //     });
-    // }
-
-    // doDeleteUser = (uid) => {
-    //   admin.auth().deleteUser(uid)
-    //     .then(function() {
-    //       console.log("Successfully deleted user");
-    //     })
-    //     .catch(function(error) {
-    //       console.log("Error deleting user:", error);
-    //     });
-    // }
     // *** Auth API ***
   
     doCreateUserWithEmailAndPassword = (email, password) =>
@@ -174,7 +92,7 @@ class Firebase {
     doUpdateUserInfo = (userUid, userInfo) => {
       let usersRef = this.db.ref('users/');
       usersRef.child(userUid).set({
-          username: userInfo.name,
+          username: userInfo.username,
           email: userInfo.email,
           department: userInfo.department,
           roles: userInfo.roles,

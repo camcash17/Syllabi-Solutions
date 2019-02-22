@@ -53,6 +53,10 @@ const HeaderNav = (props) =>
   
   const mapStateToProps = state => ({
     authUser: state.sessionState.authUser,
+    users: Object.keys(state.userState.users || {}).map(key => ({
+        ...state.userState.users[key],
+        uid: key,
+      })),
   });
   
   export default connect(mapStateToProps)(HeaderNav);
