@@ -1,23 +1,19 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import axios from 'axios';
 import "../../index.css";
 
 import Home from '../Home';
-import UserProfile from '../Application/app/UserProfile';
-import CourseDetails from '../Application/app/course-design/CourseDetails';
-import CoursePending from '../Application/app/CoursePending';
-import CourseCompleted from '../Application/app/CourseCompleted';
-import CourseCompetencies from '../Application/app/course-design/CourseCompetencies';
-import CourseOutcomes from '../Application/app/course-design/CourseOutcomes';
-import LearningObjectives from '../Application/app/course-design/LearningObjectives';
-import ModuleDesign from '../Application/app/course-design/ModuleDesign';
-import DLPrintCenter from '../Application/app/course-design/DLPrintCenter';
-import DesignNav from "../Application/app/header/DesignNav";
-import InstructorNav from "../Application/app/header/InstructorNav";
+import { UserProfile } from '../Application/UserProfile/';
+import CourseDetails from '../Application/course-design/CourseDetails';
+import CoursePending from '../Application/CoursePending';
+import CourseCompleted from '../Application/CourseCompleted';
+import CourseCompetencies from '../Application/course-design/CourseCompetencies';
+import CourseOutcomes from '../Application/course-design/CourseOutcomes';
+import LearningObjectives from '../Application/course-design/LearningObjectives';
+import ModuleDesign from '../Application/course-design/ModuleDesign';
+import DLPrintCenter from '../Application/course-design/DLPrintCenter';
 
-import Nav from "../Application/app/header/Nav";
+import Nav from "../Application/header/Nav";
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';

@@ -40,7 +40,7 @@ body {
     padding: 5px 20px;
 }
 
-#forms {
+/* #forms {
     background-color: rgba(0,0,0,.5);
     position: fixed;
     top: 50%;
@@ -48,13 +48,29 @@ body {
     transform: translate(-50%, -50%);
     border-radius: 10px;
     padding: 5px 20px;
-}
+} */
 
 #form {
-    text-align: center;
+    /* text-align: center; */
+    width: 40%;
+    color: black;
 }
 
 .button {
     background-color: rgba(0,0,0,.5);
     color: red;
+    border-radius: 10%;
+    margin-left: 1%;
+}
+
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    font-size: larger;
+}
+
+.md-form input[type=text] + label {
+    color: white; 
+}
+
+.form-check-label {
+    color: white;
 }

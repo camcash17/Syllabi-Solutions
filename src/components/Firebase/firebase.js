@@ -67,13 +67,13 @@ class Firebase {
       this.db.ref('users/' + id).remove();
     }
 
-    doCreateUser = (username, email, department, roles, userUid) => {
+    doCreateUser = (username, email, department, role, userUid) => {
       let usersRef = this.db.ref('users/');
       usersRef.child(userUid).set({
           username: username,
           email: email,
           department: department,
-          roles: roles
+          role: role
       })
     }
 
@@ -95,11 +95,16 @@ class Firebase {
           username: userInfo.username,
           email: userInfo.email,
           department: userInfo.department,
-          roles: userInfo.roles,
           suffix: userInfo.suffix,
           degree: userInfo.degree,
           university: userInfo.university,
-          college: userInfo.college
+          college: userInfo.college,
+          offices: userInfo.offices,
+          phone: userInfo.phone,
+          volP: userInfo.volP,
+          facebook: userInfo.facebook,
+          twitter: userInfo.twitter,
+          linkedIn: userInfo.linkedIn
       })
     }
   
@@ -112,9 +117,9 @@ class Firebase {
             .once('value')
             .then(snapshot => {
               const dbUser = snapshot.val();
-              // default empty roles
-              if (!dbUser.roles) {
-                dbUser.roles = [];
+              // default empty role
+              if (!dbUser.role) {
+                dbUser.role = "";
               }
   
               // merge auth and db user

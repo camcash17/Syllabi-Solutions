@@ -6,6 +6,7 @@ import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import { CreateNewUserForm } from '../CreateNewUser';
+import UserTable from './UserTable';
 
 class UserList extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class UserList extends Component {
   }
 
   render() {
+    // console.log(this.props)
     const { users } = this.props;
     const { loading } = this.state;
 
@@ -61,7 +63,7 @@ class UserList extends Component {
           </span>}
         <h2>Users</h2>
         {loading && <div>Loading ...</div>}
-        <ul>
+        {/* <ul>
           {users.map(user => (
             <li key={user.uid}>
               <span>
@@ -83,7 +85,8 @@ class UserList extends Component {
               </span>
             </li>
           ))}
-        </ul>
+        </ul> */}
+        <UserTable users={users} />
       </div>
     );
   }

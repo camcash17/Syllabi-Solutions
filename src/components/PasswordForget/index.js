@@ -1,9 +1,9 @@
-
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import { MDBInput, MDBFormInline } from "mdbreact";
 
 const PasswordForgetPage = () => (
   <div id="message">
@@ -49,20 +49,21 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
+      <MDBFormInline onSubmit={this.onSubmit}>
+        <MDBInput
           name="email"
           value={this.state.email}
           onChange={this.onChange}
           type="text"
-          placeholder="Email Address"
+          label="Email Address"
+          style={{color: 'white'}}
         />
         <button className="button" disabled={isInvalid} type="submit">
           Reset My Password
         </button>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </MDBFormInline>
     );
   }
 }
