@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
+import { MDBInput } from "mdbreact";
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
@@ -23,6 +24,7 @@ const INITIAL_STATE = {
   isAdmin: false,
   isLeader: false,
   error: null,
+  role: ''
 };
 
 const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use';
@@ -44,7 +46,7 @@ class CreateNewUserFormBase extends Component {
 
   onSubmit = event => {
     let userUid;
-    const { username, department, email, passwordOne, isInstructor, isAdmin, isLeader } = this.state;
+    const { username, department, email, role } = this.state;
 
     const newUser = {
         username: this.state.username,
@@ -52,23 +54,11 @@ class CreateNewUserFormBase extends Component {
         password: this.state.passwordOne
     }
 
-    const roles = [];
-
-    if (isAdmin) {
-        roles.push(ROLES.ADMIN);
-    }
-    if (isInstructor) {
-        roles.push(ROLES.INSTRUCTOR);
-    }
-    if (isLeader) {
-        roles.push(ROLES.LEADER);
-    }
-
     try {
         axios.post(`http://localhost:8080/fb`, newUser)
         .then(data => {
           userUid = data.data.uid;
-          this.props.firebase.doCreateUser(username, email, department, roles, userUid);
+          this.props.firebase.doCreateUser(username, email, department, role, userUid);
         })
         .catch(err => {
           console.log("Error Creating New User: " + err);
@@ -88,10 +78,6 @@ class CreateNewUserFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onChangeCheckbox = event => {
-    this.setState({ [event.target.name]: event.target.checked });
-  };
-
   render() {
     const {
       username,
@@ -99,9 +85,7 @@ class CreateNewUserFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
-      isInstructor,
-      isAdmin,
-      isLeader,
+      role,
       error,
     } = this.state;
 
@@ -110,87 +94,68 @@ class CreateNewUserFormBase extends Component {
       passwordOne === '' ||
       email === '' ||
       username === '' ||
-      (isInstructor === false && isAdmin === false && isLeader === false);
-
-    const unCheckedI =
-    isLeader === true ||
-    isAdmin === true;
-
-    const unCheckedA =
-    isInstructor === true ||
-    isLeader === true;
-
-    const unCheckedL =
-    isInstructor === true ||
-    isAdmin === true;
+      role === '';
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+        <MDBInput
           name="username"
           value={username}
           onChange={this.onChange}
           type="text"
-          placeholder="Full Name"
+          label="Full Name"
+          style={{color: 'white'}}
         />
-        <input
+        <MDBInput
           name="department"
           value={department}
           onChange={this.onChange}
           type="text"
-          placeholder="Department"
+          label="Department"
+          style={{color: 'white'}}
         />
-        <input
+        <MDBInput
           name="email"
           value={email}
           onChange={this.onChange}
           type="text"
-          placeholder="Email Address"
+          label="Email Address"
+          style={{color: 'white'}}
         />
-        <input
+        <MDBInput
           name="passwordOne"
           value={passwordOne}
           onChange={this.onChange}
           type="password"
-          placeholder="Password"
+          label="Password"
+          style={{color: 'white'}}
         />
-        <input
+        <MDBInput
           name="passwordTwo"
           value={passwordTwo}
           onChange={this.onChange}
           type="password"
-          placeholder="Confirm Password"
+          label="Confirm Password"
+          style={{color: 'white'}}
         />
         <label>
           Instructor:
-          <input
-            name="isInstructor"
-            type="checkbox"
-            disabled={unCheckedI}
-            checked={isInstructor}
-            onChange={this.onChangeCheckbox}
-          />
+          <input name="role" value="Instructor" onChange={this.onChange} label="Instructor" type="radio"
+            id="instructor" checked={this.state.role === 'Instructor'} />
         </label>
+        <br/>
         <label>
           Admin:
-          <input
-            name="isAdmin"
-            type="checkbox"
-            disabled={unCheckedA}
-            checked={isAdmin}
-            onChange={this.onChangeCheckbox}
-          />
+          <input name="role" value="Admin" onChange={this.onChange} label="Admin" type="radio"
+            id="admin" checked={this.state.role === 'Admin'} />
         </label>
+        <br/>
         <label>
           Leader:
-          <input
-            name="isLeader"
-            type="checkbox"
-            disabled={unCheckedL}
-            checked={isLeader}
-            onChange={this.onChangeCheckbox}
-          />
+          <input name="role" value="Leader" onChange={this.onChange} label="Leader" type="radio"
+            id="leader" checked={this.state.role === 'Leader'} />
         </label>
+        <br/>
         <button className="button" disabled={isInvalid} type="submit">
          Create
         </button>

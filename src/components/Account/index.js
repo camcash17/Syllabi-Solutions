@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import { withAuthorization, withEmailVerification } from '../Session';
 import { withFirebase } from '../Firebase';
 import { PasswordForgetForm } from '../PasswordForget';
-import PasswordChangeForm from '../PasswordChange';
+// import PasswordChangeForm from '../PasswordChange';
 
 const SIGN_IN_METHODS = [
   {
@@ -30,8 +30,8 @@ const AccountPage = ({ authUser }) => (
   <div id="message">
     <h1>Account: {authUser.email}</h1>
     <PasswordForgetForm />
-    <PasswordChangeForm />
-    <LoginManagement authUser={authUser} />
+    {/* <PasswordChangeForm />
+    <LoginManagement authUser={authUser} /> */}
   </div>
 );
 

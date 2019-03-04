@@ -1,3 +1,3 @@
-export const ADMIN = 'ADMIN';
-export const INSTRUCTOR = 'INSTRUCTOR';
-export const LEADER = 'LEADER';
+export const ADMIN = 'Admin';
+export const INSTRUCTOR = 'Instructor';
+export const LEADER = 'Leader';

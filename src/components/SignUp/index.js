@@ -19,7 +19,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
-  isAdmin: false,
+  role: 'Admin',
   error: null,
 };
 
@@ -47,12 +47,7 @@ class SignUpFormBase extends Component {
   // }
 
   onSubmit = event => {
-    const { username, email, passwordOne, isAdmin } = this.state;
-    const roles = [];
-
-    if (isAdmin) {
-      roles.push(ROLES.ADMIN);
-    }
+    const { username, email, passwordOne, role } = this.state;
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -61,7 +56,7 @@ class SignUpFormBase extends Component {
         return this.props.firebase.user(authUser.user.uid).set({
           username,
           email,
-          roles,
+          role,
         });
       })
       .then(() => {
@@ -96,7 +91,6 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
-      isAdmin,
       error,
     } = this.state;
 
@@ -156,7 +150,7 @@ class SignUpFormBase extends Component {
                 error="wrong"
                 success="right"
               />
-              <label>
+              {/* <label>
                 Admin:
                 <input
                   name="isAdmin"
@@ -164,7 +158,7 @@ class SignUpFormBase extends Component {
                   checked={isAdmin}
                   onChange={this.onChangeCheckbox}
                 />
-              </label>
+              </label> */}
               {/* <MDBContainer className="mt-5">
                 <MDBInput gap onClick={this.onClick(1)} checked={this.state.radio===1 ? isAdmin : false} label="Admin" type="radio"
                   id="radio1" />

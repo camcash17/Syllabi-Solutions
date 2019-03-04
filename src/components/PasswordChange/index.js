@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { MDBInput, MDBFormInline } from "mdbreact";
 
 import { withFirebase } from '../Firebase';
 
@@ -41,27 +42,29 @@ class PasswordChangeForm extends Component {
       passwordOne !== passwordTwo || passwordOne === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
+      <MDBFormInline onSubmit={this.onSubmit}>
+        <MDBInput
           name="passwordOne"
           value={passwordOne}
           onChange={this.onChange}
           type="password"
-          placeholder="New Password"
+          label="New Password"
+          style={{color: 'white'}}
         />
-        <input
+        <MDBInput
           name="passwordTwo"
           value={passwordTwo}
           onChange={this.onChange}
           type="password"
-          placeholder="Confirm New Password"
+          label="Confirm New Password"
+          style={{color: 'white'}}
         />
         <button className="button" disabled={isInvalid} type="submit">
           Reset My Password
         </button>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </MDBFormInline>
     );
   }
 }
