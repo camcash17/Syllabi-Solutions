@@ -74,3 +74,14 @@ body {
 .form-check-label {
     color: white;
 }
+
+.md-form input[type=text] {
+    width: 200px;
+}
+
+.officeHours {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 45%
+}
