@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import '../../../index.css'
+import "../../../index.css";
 
 class DLPrintCenter extends Component {
   constructor() {
-      super();
-      this.state = {};
+    super();
+    this.state = {};
   }
-  render() { 
+  render() {
     return (
       <div id="message">
-        <h2 style={{margin: '10px'}}>Download & Print Center</h2>
+        <h2 style={{ margin: "10px" }}>Download & Print Center</h2>
       </div>
     );
   }

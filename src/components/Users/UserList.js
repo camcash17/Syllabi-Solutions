@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { compose } from "recompose";
 
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-import { CreateNewUserForm } from '../CreateNewUser';
-import UserTable from './UserTable';
+import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../constants/routes";
+import { CreateNewUserForm } from "../CreateNewUser";
+import UserTable from "./UserTable";
 
 class UserList extends Component {
   constructor(props) {
@@ -24,13 +24,13 @@ class UserList extends Component {
       this.setState({ loading: true });
     }
 
-    this.props.firebase.users().on('value', snapshot => {
+    this.props.firebase.users().on("value", snapshot => {
       this.props.onSetUsers(snapshot.val());
 
       this.setState({
-         loading: false,
-         newUser: false
-        });
+        loading: false,
+        newUser: false
+      });
     });
   }
 
@@ -41,7 +41,7 @@ class UserList extends Component {
   newUser() {
     this.setState({
       newUser: !this.state.newUser
-    })
+    });
   }
 
   render() {
@@ -51,16 +51,18 @@ class UserList extends Component {
 
     return (
       <div>
-          {!this.state.newUser ?
-          <Link to='#'>
+        {!this.state.newUser ? (
+          <Link to="#">
             <p onClick={this.newUser}>Create a User</p>
-          </Link> :
+          </Link>
+        ) : (
           <span>
-            <Link to='#'>
-              <p onClick={this.newUser}>Back</p> 
+            <Link to="#">
+              <p onClick={this.newUser}>Back</p>
             </Link>
             <CreateNewUserForm />
-          </span>}
+          </span>
+        )}
         <h2>Users</h2>
         {loading && <div>Loading ...</div>}
         {/* <ul>
@@ -95,18 +97,18 @@ class UserList extends Component {
 const mapStateToProps = state => ({
   users: Object.keys(state.userState.users || {}).map(key => ({
     ...state.userState.users[key],
-    uid: key,
-  })),
+    uid: key
+  }))
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetUsers: users => dispatch({ type: 'USERS_SET', users }),
+  onSetUsers: users => dispatch({ type: "USERS_SET", users })
 });
 
 export default compose(
   withFirebase,
   connect(
     mapStateToProps,
-    mapDispatchToProps,
-  ),
+    mapDispatchToProps
+  )
 )(UserList);

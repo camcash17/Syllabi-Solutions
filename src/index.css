@@ -1,43 +1,43 @@
 body {
-    background-image: url(./assets/img/background.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-size: 100% 100% !important;
-    width: 100%;
-    height: auto;
-    min-height: 100%;
+  background-image: url(./assets/img/background.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-size: 100% 100% !important;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
 }
 
 #navigation {
-    position: sticky;
+  position: sticky;
 }
 
 #background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 #content {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    /* padding: 10% 30% 10% 30%; */
+  position: absolute;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  /* padding: 10% 30% 10% 30%; */
 }
 
 #logo {
-    background: url(./assets/img/logo.png)
+  background: url(./assets/img/logo.png);
 }
 
 #message {
-    color: white;
-    background-color: rgba(0,0,0,.5);
-    position: relative;
-    border-radius: 10px;
-    padding: 5px 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+  border-radius: 10px;
+  padding: 5px 20px;
 }
 
 /* #forms {
@@ -51,37 +51,42 @@ body {
 } */
 
 #form {
-    /* text-align: center; */
-    width: 40%;
-    color: black;
+  /* text-align: center; */
+  width: 40%;
+  color: black;
 }
 
 .button {
-    background-color: rgba(0,0,0,.5);
-    color: red;
-    border-radius: 10%;
-    margin-left: 1%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: red;
+  border-radius: 10%;
+  margin-left: 1%;
 }
 
-.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-    font-size: larger;
+.table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
+  font-size: larger;
 }
 
-.md-form input[type=text] + label {
-    color: white; 
+.md-form input[type="text"] + label {
+  color: white;
 }
 
 .form-check-label {
-    color: white;
+  color: white;
 }
 
-.md-form input[type=text] {
-    width: 200px;
+.md-form input[type="text"] {
+  width: 200px;
 }
 
 .officeHours {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 45%
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 45%;
 }

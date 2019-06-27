@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-import Navigation from '../Navigation';
+import Navigation from "../Navigation";
 
 class Home extends Component {
   constructor() {
-      super();
-      this.state = {};
+    super();
+    this.state = {};
   }
 
-  componentDidMount(){
-    const nav = 'instructor';
+  componentDidMount() {
+    const nav = "instructor";
     this.props.displayNav(nav);
   }
 
   render() {
     return (
       <div id="message">
-        <h2 style={{margin: '10px'}}>Home</h2>
+        <h2 style={{ margin: "10px" }}>Home</h2>
         {/* <Navigation /> */}
       </div>
     );

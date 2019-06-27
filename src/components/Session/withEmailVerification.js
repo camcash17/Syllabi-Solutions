@@ -1,15 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from "../Firebase";
 
 const needsEmailVerification = authUser =>
   authUser &&
   !authUser.emailVerified &&
   authUser.providerData
     .map(provider => provider.providerId)
-    .includes('password');
+    .includes("password");
 
 const withEmailVerification = Component => {
   class WithEmailVerification extends React.Component {
@@ -30,20 +30,19 @@ const withEmailVerification = Component => {
         <div id="message">
           {this.state.isSent ? (
             <p>
-              E-Mail confirmation sent: Check you E-Mails (Spam folder
-              included) for a confirmation E-Mail. Refresh this page
-              once you confirmed your E-Mail.
+              E-Mail confirmation sent: Check you E-Mails (Spam folder included)
+              for a confirmation E-Mail. Refresh this page once you confirmed
+              your E-Mail.
             </p>
           ) : (
             <p>
-              Verify your E-Mail: Check your E-Mails (Spam folder
-              included) for a confirmation E-Mail or send another
-              confirmation E-Mail.
+              Verify your E-Mail: Check your E-Mails (Spam folder included) for
+              a confirmation E-Mail or send another confirmation E-Mail.
             </p>
           )}
 
           <button
-            className="button" 
+            className="button"
             type="button"
             onClick={this.onSendEmailVerification}
             disabled={this.state.isSent}
@@ -58,12 +57,12 @@ const withEmailVerification = Component => {
   }
 
   const mapStateToProps = state => ({
-    authUser: state.sessionState.authUser,
+    authUser: state.sessionState.authUser
   });
 
   return compose(
     withFirebase,
-    connect(mapStateToProps),
+    connect(mapStateToProps)
   )(WithEmailVerification);
 };
 

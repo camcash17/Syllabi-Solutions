@@ -1,11 +1,11 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { compose } from 'recompose';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import { compose } from "recompose";
 
-import { withAuthorization, withEmailVerification } from '../Session';
-import { UserList, UserItem } from '../Users';
-import * as ROLES from '../../constants/roles';
-import * as ROUTES from '../../constants/routes';
+import { withAuthorization, withEmailVerification } from "../Session";
+import { UserList, UserItem } from "../Users";
+import * as ROLES from "../../constants/roles";
+import * as ROUTES from "../../constants/routes";
 
 const AdminPage = () => (
   <div id="message">
@@ -19,10 +19,9 @@ const AdminPage = () => (
   </div>
 );
 
-const condition = authUser =>
-  authUser && authUser.role === ROLES.ADMIN;
+const condition = authUser => authUser && authUser.role === ROLES.ADMIN;
 
 export default compose(
   withEmailVerification,
-  withAuthorization(condition),
+  withAuthorization(condition)
 )(AdminPage);

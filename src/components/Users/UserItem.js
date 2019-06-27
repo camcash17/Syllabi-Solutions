@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { Link } from 'react-router-dom';
-import * as ROUTES from '../../constants/routes';
-import axios from 'axios';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
+import axios from "axios";
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from "../Firebase";
 
 class UserItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: false
     };
   }
 
@@ -23,11 +23,8 @@ class UserItem extends Component {
 
     this.props.firebase
       .user(this.props.match.params.id)
-      .on('value', snapshot => {
-        this.props.onSetUser(
-          snapshot.val(),
-          this.props.match.params.id,
-        );
+      .on("value", snapshot => {
+        this.props.onSetUser(snapshot.val(), this.props.match.params.id);
 
         this.setState({ loading: false });
       });
@@ -54,7 +51,9 @@ class UserItem extends Component {
       // updatedRetailersList.splice(index, 1);
       // this.setState({ retailers: updatedRetailersList });
     } catch (error) {
-      console.log(`Error deleting User with ID of ${this.props.match.params.id}`);
+      console.log(
+        `Error deleting User with ID of ${this.props.match.params.id}`
+      );
       console.log(error);
     }
   };
@@ -65,9 +64,7 @@ class UserItem extends Component {
     return (
       <div>
         <span>
-          <Link to={ROUTES.ADMIN}>
-            ADMIN HOME
-          </Link>
+          <Link to={ROUTES.ADMIN}>ADMIN HOME</Link>
         </span>
         <h2>User ({this.props.match.params.id})</h2>
         {loading && <div>Loading ...</div>}
@@ -87,7 +84,7 @@ class UserItem extends Component {
             <br />
             <span>
               <button
-                className="button" 
+                className="button"
                 type="button"
                 onClick={this.onSendPasswordResetEmail}
               >
@@ -98,7 +95,7 @@ class UserItem extends Component {
             <span>
               <Link to={ROUTES.ADMIN}>
                 <button
-                  className="button" 
+                  className="button"
                   type="button"
                   onClick={this.onDeleteUser}
                 >
@@ -114,17 +111,17 @@ class UserItem extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  user: (state.userState.users || {})[props.match.params.id],
+  user: (state.userState.users || {})[props.match.params.id]
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetUser: (user, uid) => dispatch({ type: 'USER_SET', user, uid }),
+  onSetUser: (user, uid) => dispatch({ type: "USER_SET", user, uid })
 });
 
 export default compose(
   withFirebase,
   connect(
     mapStateToProps,
-    mapDispatchToProps,
-  ),
+    mapDispatchToProps
+  )
 )(UserItem);

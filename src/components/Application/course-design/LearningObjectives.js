@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import '../../../index.css'
+import "../../../index.css";
 
 class LearningObjectives extends Component {
   constructor() {
-      super();
-      this.state = {};
+    super();
+    this.state = {};
   }
-  render() { 
+  render() {
     return (
       <div id="message">
-        <h2 style={{margin: '10px'}}>Learning Objectives</h2>
+        <h2 style={{ margin: "10px" }}>Learning Objectives</h2>
       </div>
     );
   }

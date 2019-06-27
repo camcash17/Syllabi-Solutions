@@ -1,29 +1,39 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
+import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../constants/routes";
+import * as ROLES from "../../constants/roles";
 
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+  MDBModalFooter
+} from "mdbreact";
 
 const SignUpPage = () => (
   <div id="message">
-  {/* <h1>Sign Up</h1> */}
+    {/* <h1>Sign Up</h1> */}
     <SignUpForm />
   </div>
 );
 
 const INITIAL_STATE = {
-  username: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
-  role: 'Admin',
-  error: null,
+  username: "",
+  email: "",
+  passwordOne: "",
+  passwordTwo: "",
+  role: "Admin",
+  error: null
 };
 
-const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use';
+const ERROR_CODE_ACCOUNT_EXISTS = "auth/email-already-in-use";
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with this E-Mail address already exists.
@@ -56,7 +66,7 @@ class SignUpFormBase extends Component {
         return this.props.firebase.user(authUser.user.uid).set({
           username,
           email,
-          role,
+          role
         });
       })
       .then(() => {
@@ -86,71 +96,65 @@ class SignUpFormBase extends Component {
   };
 
   render() {
-    const {
-      username,
-      email,
-      passwordOne,
-      passwordTwo,
-      error,
-    } = this.state;
+    const { username, email, passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid =
       passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      email === '' ||
-      username === '';
+      passwordOne === "" ||
+      email === "" ||
+      username === "";
 
     return (
       <MDBContainer>
-      <MDBRow>
-        <MDBCol md="6">
-        <form onSubmit={this.onSubmit}>
-            <p className="h2 text-center mb-4">Sign up</p>
-            <div className="grey-text">
-              <MDBInput
-              name="username"
-              value={username}
-              onChange={this.onChange}
-              type="text"
-                label="Full Name"
-                group
-                validate
-                error="wrong"
-                success="right"
-              />
-              <MDBInput
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              type="text"
-                label="Email Address"
-                group
-                validate
-                error="wrong"
-                success="right"
-              />
-              <MDBInput
-              name="passwordOne"
-              value={passwordOne}
-              onChange={this.onChange}
-              type="password"
-                label="Password"
-                group
-                validate
-                containerClass="mb-0"
-              />
-              <MDBInput
-              name="passwordTwo"
-              value={passwordTwo}
-              onChange={this.onChange}
-              type="password"
-                label="Confirm Password"
-                group
-                validate
-                error="wrong"
-                success="right"
-              />
-              {/* <label>
+        <MDBRow>
+          <MDBCol md="6">
+            <form onSubmit={this.onSubmit}>
+              <p className="h2 text-center mb-4">Sign up</p>
+              <div className="grey-text">
+                <MDBInput
+                  name="username"
+                  value={username}
+                  onChange={this.onChange}
+                  type="text"
+                  label="Full Name"
+                  group
+                  validate
+                  error="wrong"
+                  success="right"
+                />
+                <MDBInput
+                  name="email"
+                  value={email}
+                  onChange={this.onChange}
+                  type="text"
+                  label="Email Address"
+                  group
+                  validate
+                  error="wrong"
+                  success="right"
+                />
+                <MDBInput
+                  name="passwordOne"
+                  value={passwordOne}
+                  onChange={this.onChange}
+                  type="password"
+                  label="Password"
+                  group
+                  validate
+                  containerClass="mb-0"
+                />
+                <MDBInput
+                  name="passwordTwo"
+                  value={passwordTwo}
+                  onChange={this.onChange}
+                  type="password"
+                  label="Confirm Password"
+                  group
+                  validate
+                  error="wrong"
+                  success="right"
+                />
+                {/* <label>
                 Admin:
                 <input
                   name="isAdmin"
@@ -159,7 +163,7 @@ class SignUpFormBase extends Component {
                   onChange={this.onChangeCheckbox}
                 />
               </label> */}
-              {/* <MDBContainer className="mt-5">
+                {/* <MDBContainer className="mt-5">
                 <MDBInput gap onClick={this.onClick(1)} checked={this.state.radio===1 ? isAdmin : false} label="Admin" type="radio"
                   id="radio1" />
               </MDBContainer> */}
@@ -170,8 +174,8 @@ class SignUpFormBase extends Component {
                   gradient="blue"
                   rounded
                   className="btn-block z-depth-1a"
-                  // className="button" 
-                  disabled={isInvalid} 
+                  // className="button"
+                  disabled={isInvalid}
                   type="submit"
                 >
                   Sign up
@@ -179,9 +183,9 @@ class SignUpFormBase extends Component {
                 {error && <p>{error.message}</p>}
               </div>
             </form>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
       // <form onSubmit={this.onSubmit}>
       //   <input
       //     name="username"

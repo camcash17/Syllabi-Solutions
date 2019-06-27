@@ -1,19 +1,29 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { compose } from "recompose";
 
-import { SignUpLink } from '../SignUp';
-import { PasswordForgetLink } from '../PasswordForget';
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
+import { SignUpLink } from "../SignUp";
+import { PasswordForgetLink } from "../PasswordForget";
+import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../constants/routes";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+  MDBModalFooter
+} from "mdbreact";
 
 const SignInPage = () => (
   // <div>
-    <div id="message">
-      {/* <h1>SignIn</h1> */}
-      <SignInForm />
-      {/* <SignInGoogle />
+  <div id="message">
+    {/* <h1>SignIn</h1> */}
+    <SignInForm />
+    {/* <SignInGoogle />
       <SignInFacebook />
       <SignInTwitter />
       <PasswordForgetLink />
@@ -21,17 +31,16 @@ const SignInPage = () => (
     {/* </div> */}
     {/* <FormPage /> */}
   </div>
-
 );
 
 const INITIAL_STATE = {
-  email: '',
-  password: '',
-  error: null,
+  email: "",
+  password: "",
+  error: null
 };
 
 const ERROR_CODE_ACCOUNT_EXISTS =
-  'auth/account-exists-with-different-credential';
+  "auth/account-exists-with-different-credential";
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with an E-Mail address to
@@ -70,44 +79,44 @@ class SignInFormBase extends Component {
   render() {
     const { email, password, error } = this.state;
 
-    const isInvalid = password === '' || email === '';
+    const isInvalid = password === "" || email === "";
 
     return (
       <MDBContainer>
-      <MDBRow>
-        <MDBCol md="6">
-        <form onSubmit={this.onSubmit}>
-            <p className="h2 text-center mb-4">Sign in</p>
-            <div className="grey-text">
-              <MDBInput
-                label="Email Address"
-                group
-                validate
-                error="wrong"
-                success="right"
-                name="email"
-                value={email}
-                onChange={this.onChange}
-                type="text"
-              />
-              <MDBInput
-                label="Password"
-                group
-                type="password"
-                validate
-                containerClass="mb-0"
-                name="password"
-                value={password}
-                onChange={this.onChange}
-              />
+        <MDBRow>
+          <MDBCol md="6">
+            <form onSubmit={this.onSubmit}>
+              <p className="h2 text-center mb-4">Sign in</p>
+              <div className="grey-text">
+                <MDBInput
+                  label="Email Address"
+                  group
+                  validate
+                  error="wrong"
+                  success="right"
+                  name="email"
+                  value={email}
+                  onChange={this.onChange}
+                  type="text"
+                />
+                <MDBInput
+                  label="Password"
+                  group
+                  type="password"
+                  validate
+                  containerClass="mb-0"
+                  name="password"
+                  value={password}
+                  onChange={this.onChange}
+                />
               </div>
               {/* <p className="font-small blue-text d-flex justify-content-end pb-3"> */}
-                {/* Forgot
+              {/* Forgot
                 <a href="#!" className="blue-text ml-1">
 
                   Password?
                 </a> */}
-                <PasswordForgetLink />
+              <PasswordForgetLink />
               {/* </p> */}
               <div className="text-center mb-3">
                 <MDBBtn
@@ -115,8 +124,8 @@ class SignInFormBase extends Component {
                   gradient="blue"
                   rounded
                   className="btn-block z-depth-1a"
-                  // className="button" 
-                  disabled={isInvalid} 
+                  // className="button"
+                  disabled={isInvalid}
                   type="submit"
                 >
                   Sign in
@@ -155,18 +164,18 @@ class SignInFormBase extends Component {
               </div> */}
             </form>
             {/* <MDBModalFooter className="mx-5 pt-3 mb-1"> */}
-              {/* <p className="font-small grey-text d-flex justify-content-end"> */}
-                {/* Not a member?
+            {/* <p className="font-small grey-text d-flex justify-content-end"> */}
+            {/* Not a member?
                 <a href="#!" className="blue-text ml-1">
 
                   Sign Up
                 </a> */}
-                <SignUpLink />
-              {/* </p> */}
+            <SignUpLink />
+            {/* </p> */}
             {/* </MDBModalFooter> */}
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
       // <form onSubmit={this.onSubmit}>
       //   <input
       //     name="email"
@@ -207,7 +216,7 @@ class SignInGoogleBase extends Component {
         return this.props.firebase.user(socialAuthUser.user.uid).set({
           username: socialAuthUser.user.displayName,
           email: socialAuthUser.user.email,
-          roles: [],
+          roles: []
         });
       })
       .then(() => {
@@ -230,7 +239,9 @@ class SignInGoogleBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button className="button" type="submit">Sign In with Google</button>
+        <button className="button" type="submit">
+          Sign In with Google
+        </button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -253,7 +264,7 @@ class SignInFacebookBase extends Component {
         return this.props.firebase.user(socialAuthUser.user.uid).set({
           username: socialAuthUser.additionalUserInfo.profile.name,
           email: socialAuthUser.additionalUserInfo.profile.email,
-          roles: [],
+          roles: []
         });
       })
       .then(() => {
@@ -276,7 +287,9 @@ class SignInFacebookBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button className="button" type="submit">Sign In with Facebook</button>
+        <button className="button" type="submit">
+          Sign In with Facebook
+        </button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -299,7 +312,7 @@ class SignInTwitterBase extends Component {
         return this.props.firebase.user(socialAuthUser.user.uid).set({
           username: socialAuthUser.additionalUserInfo.profile.name,
           email: socialAuthUser.additionalUserInfo.profile.email,
-          roles: [],
+          roles: []
         });
       })
       .then(() => {
@@ -322,7 +335,9 @@ class SignInTwitterBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <button className="button" type="submit">Sign In with Twitter</button>
+        <button className="button" type="submit">
+          Sign In with Twitter
+        </button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -332,22 +347,22 @@ class SignInTwitterBase extends Component {
 
 const SignInForm = compose(
   withRouter,
-  withFirebase,
+  withFirebase
 )(SignInFormBase);
 
 const SignInGoogle = compose(
   withRouter,
-  withFirebase,
+  withFirebase
 )(SignInGoogleBase);
 
 const SignInFacebook = compose(
   withRouter,
-  withFirebase,
+  withFirebase
 )(SignInFacebookBase);
 
 const SignInTwitter = compose(
   withRouter,
-  withFirebase,
+  withFirebase
 )(SignInTwitterBase);
 
 export default SignInPage;

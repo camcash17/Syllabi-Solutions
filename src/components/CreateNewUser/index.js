@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+import axios from "axios";
 import { MDBInput } from "mdbreact";
 
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
+import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../constants/routes";
+import * as ROLES from "../../constants/roles";
 
 const NewUserPage = () => (
-    <div id="message">
+  <div id="message">
     <h1>Create New User</h1>
-      <CreateNewUserForm />
-    </div>
-  );
+    <CreateNewUserForm />
+  </div>
+);
 
 const INITIAL_STATE = {
-  username: '',
-  department: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
+  username: "",
+  department: "",
+  email: "",
+  passwordOne: "",
+  passwordTwo: "",
   isInstructor: false,
   isAdmin: false,
   isLeader: false,
   error: null,
-  role: ''
+  role: ""
 };
 
-const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use';
+const ERROR_CODE_ACCOUNT_EXISTS = "auth/email-already-in-use";
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with this E-Mail address already exists.
@@ -49,27 +49,34 @@ class CreateNewUserFormBase extends Component {
     const { username, department, email, role } = this.state;
 
     const newUser = {
-        username: this.state.username,
-        email: this.state.email,
-        password: this.state.passwordOne
-    }
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.passwordOne
+    };
 
     try {
-        axios.post(`http://localhost:8080/fb`, newUser)
+      axios
+        .post(`http://localhost:8080/fb`, newUser)
         .then(data => {
           userUid = data.data.uid;
-          this.props.firebase.doCreateUser(username, email, department, role, userUid);
+          this.props.firebase.doCreateUser(
+            username,
+            email,
+            department,
+            role,
+            userUid
+          );
         })
         .catch(err => {
           console.log("Error Creating New User: " + err);
-        })
+        });
     } catch (error) {
-        if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
-            error.message = ERROR_MSG_ACCOUNT_EXISTS;
-        }
-        console.log(`Error creating new User`);
-        console.log(error);
-        this.setState({ error });
+      if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+        error.message = ERROR_MSG_ACCOUNT_EXISTS;
+      }
+      console.log(`Error creating new User`);
+      console.log(error);
+      this.setState({ error });
     }
     event.preventDefault();
   };
@@ -86,15 +93,15 @@ class CreateNewUserFormBase extends Component {
       passwordOne,
       passwordTwo,
       role,
-      error,
+      error
     } = this.state;
 
     const isInvalid =
       passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      email === '' ||
-      username === '' ||
-      role === '';
+      passwordOne === "" ||
+      email === "" ||
+      username === "" ||
+      role === "";
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -104,7 +111,7 @@ class CreateNewUserFormBase extends Component {
           onChange={this.onChange}
           type="text"
           label="Full Name"
-          style={{color: 'white'}}
+          style={{ color: "white" }}
         />
         <MDBInput
           name="department"
@@ -112,7 +119,7 @@ class CreateNewUserFormBase extends Component {
           onChange={this.onChange}
           type="text"
           label="Department"
-          style={{color: 'white'}}
+          style={{ color: "white" }}
         />
         <MDBInput
           name="email"
@@ -120,7 +127,7 @@ class CreateNewUserFormBase extends Component {
           onChange={this.onChange}
           type="text"
           label="Email Address"
-          style={{color: 'white'}}
+          style={{ color: "white" }}
         />
         <MDBInput
           name="passwordOne"
@@ -128,7 +135,7 @@ class CreateNewUserFormBase extends Component {
           onChange={this.onChange}
           type="password"
           label="Password"
-          style={{color: 'white'}}
+          style={{ color: "white" }}
         />
         <MDBInput
           name="passwordTwo"
@@ -136,28 +143,49 @@ class CreateNewUserFormBase extends Component {
           onChange={this.onChange}
           type="password"
           label="Confirm Password"
-          style={{color: 'white'}}
+          style={{ color: "white" }}
         />
         <label>
           Instructor:
-          <input name="role" value="Instructor" onChange={this.onChange} label="Instructor" type="radio"
-            id="instructor" checked={this.state.role === 'Instructor'} />
+          <input
+            name="role"
+            value="Instructor"
+            onChange={this.onChange}
+            label="Instructor"
+            type="radio"
+            id="instructor"
+            checked={this.state.role === "Instructor"}
+          />
         </label>
-        <br/>
+        <br />
         <label>
           Admin:
-          <input name="role" value="Admin" onChange={this.onChange} label="Admin" type="radio"
-            id="admin" checked={this.state.role === 'Admin'} />
+          <input
+            name="role"
+            value="Admin"
+            onChange={this.onChange}
+            label="Admin"
+            type="radio"
+            id="admin"
+            checked={this.state.role === "Admin"}
+          />
         </label>
-        <br/>
+        <br />
         <label>
           Leader:
-          <input name="role" value="Leader" onChange={this.onChange} label="Leader" type="radio"
-            id="leader" checked={this.state.role === 'Leader'} />
+          <input
+            name="role"
+            value="Leader"
+            onChange={this.onChange}
+            label="Leader"
+            type="radio"
+            id="leader"
+            checked={this.state.role === "Leader"}
+          />
         </label>
-        <br/>
+        <br />
         <button className="button" disabled={isInvalid} type="submit">
-         Create
+          Create
         </button>
         {error && <p>{error.message}</p>}
       </form>
